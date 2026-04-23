@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "build:test": "tsc -p tsconfig.tests.json",
     "start": "node dist/server.js",
-    "test": "npm.cmd run build:test && node --test --test-isolation=none .test-dist/tests/http.test.js .test-dist/tests/soap.test.js",
+    "test": "npm.cmd run build:test && node --test --test-isolation=none .test-dist/tests/http.test.js .test-dist/tests/walletController.test.js",
     "migrate": "tsx src/database/scripts/migrate.ts",
     "seed": "tsx src/database/scripts/seed.ts"
   },

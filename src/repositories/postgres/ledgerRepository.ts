@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { Queryable, query } from '../../db/postgres';
+import { Queryable, query } from '../../database/postgres';
 import { LedgerEntryRecord } from '../../types/domain';
 
 interface LedgerRow {

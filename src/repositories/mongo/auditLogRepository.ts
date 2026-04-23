@@ -1,5 +1,5 @@
-import { AuditLogModel } from "../../../../wallet_service/src/models/auditLogModel";
-import { AuditLogRecord } from "../../../../wallet_service/src/types/domain";
+import { AuditLogModel } from "../../models/auditLogModel";
+import { AuditLogRecord } from "../../types/domain";
 
 export class AuditLogRepository {
   public async create(log: AuditLogRecord): Promise<void> {

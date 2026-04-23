@@ -1,7 +1,7 @@
-import { TopUpRequestStatuses } from "../../../../wallet_service/src/config/constants";
-import { AppError } from "../../../../wallet_service/src/errors/AppError";
-import { TopUpRequestModel } from "../../../../wallet_service/src/models/topUpRequestModel";
-import { TopUpRequestRecord } from "../../../../wallet_service/src/types/domain";
+import { TopUpRequestStatuses } from '../../config/constants';
+import { AppError } from '../../errors/AppError';
+import { TopUpRequestModel } from '../../models/topUpRequestModel';
+import { TopUpRequestRecord } from '../../types/domain';
 
 const mapTopUpRequest = (item: {
   _id: { toString(): string };
@@ -9,7 +9,7 @@ const mapTopUpRequest = (item: {
   amount: number;
   currency: string;
   reason?: string | null;
-  status: "pending" | "approved" | "rejected";
+  status: 'pending' | 'approved' | 'rejected';
   reviewedByUserId?: string | null;
   reviewedAt?: Date | null;
   createdAt: Date;
@@ -78,7 +78,7 @@ export class TopUpRequestRepository {
     ).lean();
 
     if (!item) {
-      throw new AppError(409, "Top-up request is no longer pending");
+      throw new AppError(409, 'Top-up request is no longer pending');
     }
 
     return mapTopUpRequest(item as never);

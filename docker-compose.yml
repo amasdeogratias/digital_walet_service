@@ -1,0 +1,63 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: digital-wallet-service-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      POSTGRES_URL: postgresql://postgres:admin@postgres:5432/wallet_service
+      MONGODB_URL: mongodb://mongo:27017/wallet_service
+      JWT_SECRET: super-secret-change-me
+      JWT_EXPIRES_IN: 8h
+      TRANSFER_MIN_AMOUNT: 10
+      TRANSFER_MAX_AMOUNT: 10000
+      DEFAULT_CURRENCY: TZS
+      ADMIN_EMAIL: admin@wallet.local
+      ADMIN_PASSWORD: Admin123!
+      DEMO_USER_PASSWORD: User12345!
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: digital-wallet-service-postgres
+    environment:
+      POSTGRES_DB: wallet_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d wallet_service"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    container_name: digital-wallet-service-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  mongo_data:
